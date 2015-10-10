@@ -27,7 +27,7 @@
   angular
     .module('popcornSaver', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize',
       'ngMessages', 'ngAria', 'ngRoute', 'ui.bootstrap', 'toastr',
-      'akoenig.deckgrid']);
+      'akoenig.deckgrid', 'LocalForageModule']);
 
 
 

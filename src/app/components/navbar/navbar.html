@@ -17,6 +17,10 @@
         <input type="text" class="form-control" id="search-input"
           placeholder="Search for a movie..." ng-model="query" ng-change="fetch({query:query})">
       </ul>
+
+      <ul class="nav navbar-nav navbar-right acme-navbar-text">
+        <button style="margin-top:9px; margin-right:15px;" class="btn btn-default" ng-click="clear()">Reset ratings</button>
+      </ul>
     </div>
   </div>
 </nav>

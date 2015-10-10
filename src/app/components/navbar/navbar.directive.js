@@ -12,6 +12,7 @@
       templateUrl: 'app/components/navbar/navbar.html',
       scope: {
           query: '=',
+          clear: '&',
           fetch: '&'
       }
     };

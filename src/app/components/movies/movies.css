@@ -31,3 +31,11 @@
 .deckgrid .column-1-5 p{
   font-weight: bold;
 }
+
+.on-star {
+  color: #F8F371;
+}
+
+.off-star {
+  color: gray;
+}

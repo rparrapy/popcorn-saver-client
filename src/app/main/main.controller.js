@@ -21,5 +21,12 @@
         _getPhotos(query);
       }
     }
+
+    vm.clearRatings = function(){
+      _.each(vm.photos, function(p){
+        delete p.rating;
+      });
+      movieFactory.resetRatings();
+    }
   }
 })();

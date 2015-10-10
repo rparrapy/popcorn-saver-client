@@ -1,4 +1,26 @@
-<div deckgrid class="deckgrid" source="photos">
-  <img ng-src="{{card.poster}}" alt="" />
-  <p>{{card.title}}</p>
+<div>
+  <div deckgrid class="deckgrid" source="photos">
+    <div>
+      <img ng-src="{{card.poster}}" alt="" ng-click="mother.onPosterClick(card)"/>
+      <uib-rating ng-show="card.rating" ng-model="card.rating" max="10" readonly="true" state-on="'glyphicon-star on-star'" state-off="'glyphicon-star off-star'" state aria-labelledby="custom-icons-1"></uib-rating>
+      <div>{{card.title}}</div>
+      <br>
+    </div>
+  </div>
+  <script type="text/ng-template" id="ratingModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Please rate "{{selectedMovie.title}}"</h3>
+        </div>
+        <div class="modal-body">
+            Rating:
+            <div>
+              <uib-rating ng-model="selectedMovie.rating" max="10" aria-labelledby="custom-icons-1"></uib-rating>
+              <b>(<i>Rate:</i> {{selectedMovie.rating || 0}})</b>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok(selectedMovie.rating)">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+  </script>
 </div>

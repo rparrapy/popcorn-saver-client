@@ -6,7 +6,7 @@
       .factory('movieFactory', movieFactory);
 
   /** @ngInject */
-  function movieFactory($q, elasticsearch, _, TMDB_CONFIG, $http) {
+  function movieFactory($q, elasticsearch, _, TMDB_CONFIG, $http, $localForage) {
     var tmdb = {
       url: TMDB_CONFIG['api_url'],
       method: 'GET',
@@ -38,11 +38,18 @@
         return client.search({
           index: 'popcorn-saver',
           type: 'movie',
+          size: 20,
           body: {
             query: query
           }
         }).then(function(resp){
           var movies = _.map(resp.hits.hits, function(h){ return h._source; });
+          _.each(movies, function(m){
+            $localForage.getItem(m.movieId).then(function(data){
+              if(data) m.rating = data;
+            });
+          });
+
           var results = _.map(movies, function(m){
             var config = _.clone(tmdb);
             config.url += 'movie/'+ m.tmdbId+'/images';
@@ -63,6 +70,9 @@
           });
           return $q.all(results);
         });
+      },
+      resetRatings: function(){
+        $localForage.clear();
       }
     }
   }
