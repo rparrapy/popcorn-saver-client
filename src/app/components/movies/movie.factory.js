@@ -27,6 +27,7 @@
     });
 
     var PS_URL = 'http://localhost:5000';
+    var RECOMMENDER_URL = 'http://localhost:7000';
 
     var _get_Poster = function(m) {
       var config = _.clone(tmdb);
@@ -92,11 +93,16 @@
       },
       resetRatings: function() {
         $localForage.removeItem('ratings');
+        $http({
+          url: PS_URL + '/ratings',
+          method: 'DELETE'
+        });
       },
       getRatings: function() {
         return $localForage.getItem('ratings');
       },
       addMovieRating: function(movieId, rating) {
+        var payload = new FormData();
         $localForage.keys().then(function(keys) {
           if(_.contains(keys, 'ratings')){
             $localForage.getItem('ratings').then(function(data){
@@ -108,16 +114,50 @@
             ratings[movieId] = rating;
             $localForage.setItem('ratings', ratings);
           }
+
+          payload.append('preference', rating/2);
+          payload.append('user_id', 0);
+          payload.append('item_id', movieId);
+          payload. append('created_at', Date.now());
+          $http({
+            url: PS_URL + '/ratings',
+            method: 'POST',
+            headers: { 'Content-Type': undefined },
+            data: payload,
+            transformRequest: function(data) { return data; }
+          });
         });
       },
-      getRecommendations: function(ratings) {
+      getRecommendations: function(type) {
+        type = type || 'user';
         return $http({
-          url: PS_URL + '/recommendations',
+          url: RECOMMENDER_URL + '/recommendations',
           method: 'GET',
           params: {
-            'ratings': _.mapValues(ratings, function(m) { return m/2; })
+            'type': type,
+            'user': 0
           }
-        })
+        }).then(function(recommendations) {
+          var movieIds = _.pluck(recommendations.data, 'itemID');
+          var qstring = _(movieIds).join(" OR ");
+          return client.search({
+            index: 'popcorn-saver',
+            type: 'movie',
+            size: 20,
+            body: {
+              query: {
+                query_string: {
+                  query: qstring,
+                  fields: ['movieId']
+                }
+              }
+            }
+          });
+        }).then(function(resp) {
+          var movies = _.map(resp.hits.hits, function(h){ return h._source; });
+          var results = _.map(movies, _get_Poster);
+          return $q.all(results);
+        });
       }
     }
   }

@@ -24,7 +24,8 @@
         _getPhotos(query);
       }
     }
-
+    
+    vm.showSearchBar = true;
     vm.clearRatings = function(){
       _.each(vm.photos, function(p){
         delete p.rating;

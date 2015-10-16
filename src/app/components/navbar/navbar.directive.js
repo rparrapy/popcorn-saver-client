@@ -13,9 +13,15 @@
       scope: {
           query: '=',
           clear: '&',
-          fetch: '&'
+          fetch: '&',
+          recommend: '&',
+          searchbar: '='
       },
       link: function link(scope, element, attrs) {
+        //si esto no es alambre, el alambre donde esta?
+        if (scope.searchbar === undefined) {
+          scope.searchbar = true;
+        }
         scope.isActive = function (path) {
           return (path === '/' && $location.path() === path) ||
             (path !== '/' && $location.path().substr(0, path.length) === path);

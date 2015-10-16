@@ -13,18 +13,26 @@
         <li ng-class="{active: isActive('/trends')}"><a ng-href="#/">Social Trends</a></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline">
+      <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline" ng-if="searchbar">
         <input type="text" class="form-control" id="search-input"
           placeholder="Search by title" ng-model="query.title" ng-change="fetch({query:query})">
       </ul>
 
-      <ul class="nav navbar-nav navbar-right acme-navbar-text">
+      <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline" ng-if="!searchbar">
+        <select class="form-control" id="sel1" ng-init="recommender='user'" ng-model="recommender" ng-change="recommend({recommender:recommender})">
+          <option value="user" selected="selected">User-User Recommender</option>
+          <option value="item">Item-Item Recommender</option>
+          <option value="svd">SVD Recommender</option>
+        </select>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right acme-navbar-text" ng-if="searchbar">
         <button style="margin-top:9px; margin-right:15px;" class="btn btn-default" ng-click="clear()">Reset ratings</button>
       </ul>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
 
-      <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline">
+      <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline" ng-if="searchbar">
         <input type="text" class="form-control" id="search-input"
           placeholder="Search by year" style="margin-left:2%;" ng-model="query.year" ng-change="fetch({query:query})">
         <input style="float:left;" type="text" class="form-control" id="search-input"
