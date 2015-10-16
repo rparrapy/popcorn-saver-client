@@ -1,20 +1,17 @@
-<div class="container">
+<div>
+  <acme-navbar query="main.query" fetch="main.fetchPhotos(query)" photos="main.photos" clear="main.clearRatings()"></acme-navbar>
+</div>
 
-  <div>
-    <acme-navbar query="main.query" fetch="main.fetchPhotos(query)" photos="main.photos" clear="main.clearRatings()"></acme-navbar>
-  </div>
+<div class="jumbotron text-center">
+  <h1>Welcome to Popcorn Saver!</h1>
+  <p class="lead">
+    <img src="assets/images/popcorn.png" alt="I'm Popcorn Saver" height="150px" width="150px"><br>
+    An online movie expert at your service.
+  </p>
+</div>
 
-  <div class="jumbotron text-center">
-    <h1>Welcome to Popcorn Saver!</h1>
-    <p class="lead">
-      <img src="assets/images/popcorn.png" alt="I'm Popcorn Saver" height="150px" width="150px"><br>
-      An online movie expert at your service.
-    </p>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <movie-grid photos="main.photos" query="main.query""></movie-grid>
-    </div>
+<div class="row">
+  <div class="col-md-12">
+    <movie-grid photos="main.photos" query="main.query""></movie-grid>
   </div>
 </div>

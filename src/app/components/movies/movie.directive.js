@@ -6,7 +6,7 @@
     .directive('movieGrid', movieGrid);
 
   /** @ngInject */
-  function movieGrid($uibModal, $log, $localForage) {
+  function movieGrid($uibModal, $log, movieFactory) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/movies/movies.html',
@@ -37,7 +37,7 @@
           });
 
           modalInstance.result.then(function (rating) {
-            $localForage.setItem(scope.selectedMovie.movieId, rating);
+            movieFactory.addMovieRating(scope.selectedMovie.movieId, rating);
           }, function () {
             scope.selectedMovie.rating = scope.previousRating;
             $log.info('Modal dismissed at: ' + new Date());

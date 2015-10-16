@@ -12,6 +12,11 @@
         controller: 'MainController',
         controllerAs: 'main'
       })
+      .when('/recommendations', {
+        templateUrl: 'app/recommendations/recommendations.html',
+        controller: 'RecommendationsController',
+        controllerAs: 'rec'
+      })
       .otherwise({
         redirectTo: '/'
       });

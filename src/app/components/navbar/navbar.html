@@ -8,19 +8,29 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
-        <li class="active"><a ng-href="#/">Explore</a></li>
-        <li><a ng-href="#/">Recommendations</a></li>
-        <li><a ng-href="#/">Social Trends</a></li>
+        <li ng-class="{active: isActive('/')}"><a ng-href="#/">Explore</a></li>
+        <li ng-class="{active: isActive('/recommendations')}"><a ng-href="#/recommendations">Recommendations</a></li>
+        <li ng-class="{active: isActive('/trends')}"><a ng-href="#/">Social Trends</a></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right acme-navbar-text">
+      <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline">
         <input type="text" class="form-control" id="search-input"
-          placeholder="Search for a movie..." ng-model="query" ng-change="fetch({query:query})">
+          placeholder="Search by title" ng-model="query.title" ng-change="fetch({query:query})">
       </ul>
 
       <ul class="nav navbar-nav navbar-right acme-navbar-text">
         <button style="margin-top:9px; margin-right:15px;" class="btn btn-default" ng-click="clear()">Reset ratings</button>
       </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+
+      <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline">
+        <input type="text" class="form-control" id="search-input"
+          placeholder="Search by year" style="margin-left:2%;" ng-model="query.year" ng-change="fetch({query:query})">
+        <input style="float:left;" type="text" class="form-control" id="search-input"
+            placeholder="Search by genre" ng-model="query.genres" ng-change="fetch({query:query})">
+      </ul>
+
     </div>
   </div>
 </nav>

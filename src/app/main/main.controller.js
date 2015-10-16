@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController(movieFactory, $log, $scope) {
+  function MainController(movieFactory, $log, $scope, _) {
     var vm = this;
     vm.photos = [];
     var _getPhotos = function(query){
@@ -17,7 +17,10 @@
     }
     _getPhotos();
     vm.fetchPhotos = function(query){
-      if(query.length > 2 || query.length == 0) {
+      var validQuery = _.findKey(query, function(k) {
+        return k.length > 2 || k.length == 0
+      });
+      if(validQuery) {
         _getPhotos(query);
       }
     }

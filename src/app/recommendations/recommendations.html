@@ -1,0 +1,23 @@
+<div>
+  <acme-navbar query="main.query" fetch="main.fetchPhotos(query)" photos="main.photos" clear="main.clearRatings()"></acme-navbar>
+</div>
+
+<div ng-if="rec.numberOfRatings >= rec.minRatings">
+  <div deckgrid class="deckgrid" source="rec.photos">
+    <div>
+      <img ng-src="{{card.poster}}" alt=""/>
+      <div>{{card.title}}</div>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div ng-if="rec.numberOfRatings < rec.minRatings">
+  <uib-alert>
+    You have rated {{rec.numberOfRatings}}
+    <span ng-if="rec.numberOfRatings > 1">movies</span>
+    <span ng-if="rec.numberOfRatings === 1">movie</span>so far.
+    <br>
+    Please rate at least {{rec.minRatings}} movies to get recommendations.
+  </uib-alert>
+</div>

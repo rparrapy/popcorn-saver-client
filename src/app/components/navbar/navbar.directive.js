@@ -6,7 +6,7 @@
     .directive('acmeNavbar', acmeNavbar);
 
   /** @ngInject */
-  function acmeNavbar() {
+  function acmeNavbar($location) {
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/navbar/navbar.html',
@@ -14,6 +14,12 @@
           query: '=',
           clear: '&',
           fetch: '&'
+      },
+      link: function link(scope, element, attrs) {
+        scope.isActive = function (path) {
+          return (path === '/' && $location.path() === path) ||
+            (path !== '/' && $location.path().substr(0, path.length) === path);
+        }
       }
     };
 
