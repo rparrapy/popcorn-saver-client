@@ -9,6 +9,7 @@
   function MainController(movieFactory, $log, $scope, _) {
     var vm = this;
     vm.photos = [];
+    vm.query = {};
     var _getPhotos = function(query){
       movieFactory.getMovies(query).then(function(resp){
         vm.photos = resp;
@@ -24,7 +25,7 @@
         _getPhotos(query);
       }
     }
-    
+
     vm.showSearchBar = true;
     vm.clearRatings = function(){
       _.each(vm.photos, function(p){
