@@ -21,6 +21,17 @@
       }
     }
 
+    var suggest_template = {
+      suggestions: {
+        text: "",
+        term: {
+          size: 5, field: "title", sort: "score", min_word_length: 3
+        }
+      }
+    }
+
+    var suggestions = [];
+
     var client = new elasticsearch.Client({
       host: 'localhost:9200',
       log: 'debug'
@@ -51,6 +62,7 @@
     return {
       getMovies: function(qstring){
         var query = _.clone(query_template);
+        var suggest = _.clone(suggest_template);
         query.bool.must = [];
         _.forOwn(qstring, function(v, k) {
           if(v) query.bool.must.push({
@@ -60,26 +72,26 @@
               }
           });
         });
-        //
-        // if(qstring){
-        //   query = {
-        //     query_string: {
-        //         query: qstring.title,
-        //         fields: ['title']
-        //     }
-        //   };
-        // }else{
-        //   query = { 'match_all': {} };
-        // }
+
+        if(qstring && qstring.title) {
+          suggest.suggestions.text = qstring.title;
+        }
 
         return client.search({
           index: 'popcorn-saver',
           type: 'movie',
           size: 20,
           body: {
-            query: query
+            query: query,
+            suggest: suggest
           }
         }).then(function(resp){
+          suggestions = _.map(resp.suggest.suggestions, function(s) {
+            return {
+              text: s.text,
+              options: _.map(s.options, function(o) { return o.text; })
+            };
+          });
           var movies = _.map(resp.hits.hits, function(h){ return h._source; });
           _.each(movies, function(m){
             $localForage.getItem('ratings').then(function(data){
@@ -90,6 +102,9 @@
           var results = _.map(movies, _get_Poster);
           return $q.all(results);
         });
+      },
+      getSuggestions: function() {
+        return suggestions;
       },
       resetRatings: function() {
         $localForage.removeItem('ratings');

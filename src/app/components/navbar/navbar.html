@@ -35,7 +35,9 @@
       <ul class="nav navbar-nav navbar-right acme-navbar-text form-inline" ng-if="searchbar">
         <input type="text" class="form-control" id="search-input"
           placeholder="Search by year" style="margin-left:2%;" ng-model="query.year" ng-change="fetch({query:query})">
-        <input style="float:left;" type="text" class="form-control" id="search-input"
+          <input style="float:left;width:300px;" type="text" class="form-control" id="search-input"
+              placeholder="Search by quotes" ng-model="query.quotes" ng-change="fetch({query:query})">
+        <input style="float:left;margin-left:2%;" type="text" class="form-control" id="search-input"
             placeholder="Search by genre" ng-model="query.genres" ng-change="fetch({query:query})">
       </ul>
     </div>

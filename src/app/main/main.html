@@ -1,8 +1,15 @@
 <div>
   <acme-navbar query="main.query" fetch="main.fetchPhotos(query)" photos="main.photos" clear="main.clearRatings()" searchbar="main.showSearchBar"></acme-navbar>
 </div>
+<div class="lead" ng-repeat="suggestion in main.suggestions">
+  <p style="float:left;margin-left:2px;margin-right:10px;"> Instead of "{{suggestion.text}}", perhaps you meant: </p>
+  <div ng-repeat="option in suggestion.options">
+    <p style="float:left;margin-left:20px;cursor:pointer;" ng-click="main.applySuggestion(suggestion.text, option)"> {{option}} </p>
+  </div>
+  <br>
+</div>
 
-<div class="jumbotron text-center">
+<div class="jumbotron text-center" style="clear:both;">
   <h1>Welcome to Popcorn Saver!</h1>
   <p class="lead">
     <img src="assets/images/popcorn.png" alt="I'm Popcorn Saver" height="150px" width="150px"><br>

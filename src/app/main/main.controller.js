@@ -9,10 +9,13 @@
   function MainController(movieFactory, $log, $scope, _) {
     var vm = this;
     vm.photos = [];
+    vm.suggestions = [];
     vm.query = {};
+
     var _getPhotos = function(query){
       movieFactory.getMovies(query).then(function(resp){
         vm.photos = resp;
+        vm.suggestions = (resp.length === 0) ? vm.suggestions = movieFactory.getSuggestions() : [];
         $scope.$apply();
       });
     }
@@ -27,11 +30,17 @@
     }
 
     vm.showSearchBar = true;
-    vm.clearRatings = function(){
-      _.each(vm.photos, function(p){
+    vm.clearRatings = function() {
+      _.each(vm.photos, function(p) {
         delete p.rating;
       });
       movieFactory.resetRatings();
+    }
+
+    vm.applySuggestion = function(text, option) {
+      var re = new RegExp(text,"g");
+      vm.query.title = vm.query.title.replace(re, option);
+      _getPhotos(vm.query);
     }
   }
 })();
