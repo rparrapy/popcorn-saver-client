@@ -39,3 +39,9 @@
 .off-star {
   color: gray;
 }
+
+.tweet {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightskyblue;
+}

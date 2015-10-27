@@ -29,6 +29,10 @@
             modalInstance.dismiss('cancel');
           };
 
+          scope.tweets = [];
+          movieFactory.getTweets(scope.selectedMovie.movieId).then(function(tweets) {
+            scope.tweets = tweets;
+          });
 
           modalInstance = $uibModal.open({
             animation: true,

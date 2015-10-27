@@ -173,6 +173,33 @@
           var results = _.map(movies, _get_Poster);
           return $q.all(results);
         });
+      },
+      getTweets: function(movieId) {
+        return client.search({
+          index: 'popcorn-saver-tweets',
+          type: 'movie',
+          size: 20,
+          body: {
+            query: {
+              term : {
+                  movieId : movieId
+                }
+            }
+          }
+        }).then(function(resp) {
+          var tweets = _(resp.hits.hits[0]._source.tweets)
+                        .map(function(t) {
+                          t.polarity = parseFloat(t.polarity);
+                          return t;
+                        })
+                        .sortBy(function(t) {
+                          return t.polarity;
+                        }).value();
+          var result = tweets.slice(0,3).concat(tweets.slice(tweets.length - 3, tweets.length));
+          var defered = $q.defer();
+          defered.resolve(_.uniq(result));
+          return defered.promise;
+        });
       }
     }
   }

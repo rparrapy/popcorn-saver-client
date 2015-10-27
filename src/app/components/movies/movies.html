@@ -12,6 +12,14 @@
             <h3 class="modal-title">Please rate "{{selectedMovie.title}}"</h3>
         </div>
         <div class="modal-body">
+            <div class="" ng-if="tweets.length > 0">
+              Related tweets:
+              <div class="tweet" ng-repeat="t in tweets track by $index">
+                <p title="{{t.polarity}}" style="color:red;" ng-if="t.polarity < 0">{{t.text}}</p>
+                <p title="{{t.polarity}}" style="color:green;" ng-if="t.polarity > 0">{{t.text}}</p>
+                <p title="{{t.polarity}}" style="color:lightgrey;"ng-if="t.polarity === 0">{{t.text}}</p>
+              </div>
+            </div>
             Rating:
             <div>
               <uib-rating ng-model="selectedMovie.rating" max="10" aria-labelledby="custom-icons-1"></uib-rating>
